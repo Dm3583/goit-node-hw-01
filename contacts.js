@@ -5,7 +5,7 @@ const shortid = require('shortid');
 
 const contactsPath = path.join(__dirname, './db/contacts.json');
 
-function chosenContact(contacts, contactId) {
+function findContactById(contacts, contactId) {
     const contact = contacts.find(contact => contact.id.toString() === contactId);
     return contact;
 };
@@ -22,7 +22,7 @@ function listContacts() {
 function getContactById(contactId) {
     return listContacts()
         .then(contacts => {
-            const contactById = chosenContact(contacts, contactId);
+            const contactById = findContactById(contacts, contactId);
             return contactById ?
                 contactById :
                 `There is no contact with id ${contactId}`.red
@@ -33,7 +33,7 @@ function getContactById(contactId) {
 function removeContact(contactId) {
     return listContacts()
         .then(contacts => {
-            const contactToRemove = chosenContact(contacts, contactId);
+            const contactToRemove = findContactById(contacts, contactId);
             if (!contactToRemove) {
                 console.log(`There is no contact with id ${contactId}`.red);
                 return;

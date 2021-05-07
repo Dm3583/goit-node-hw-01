@@ -5,7 +5,7 @@ node index.js --action list
 https://monosnap.com/file/bbFGTc4xpnHp2Q89Sk3XFMoJ056DDl
 
 # Получаем контакт по id
-node index.js --action get --id 5
+
 https://monosnap.com/file/9LUhNEyNvOv0NU7LMX6SDSyNZYNMQ5
 
 # Добавялем контакт

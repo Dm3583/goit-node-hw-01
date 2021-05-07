@@ -22,7 +22,6 @@ function listContacts() {
 function getContactById(contactId) {
     return listContacts()
     .then(contacts=>{
-      console.log(contacts)
       const contactById = chosenContact(contacts,contactId)
       return contactById?
                 contactById:

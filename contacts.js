@@ -12,9 +12,9 @@ function findContactById(contacts, contactId) {
 
 function listContacts() {
     return fs.readFile(contactsPath, 'utf8', (error, data) => {
-            if (error) throw error;
-            return data;
-        })
+        if (error) throw error;
+        return data;
+    })
         .then(JSON.parse)
         .catch(error => console.error(error.message));
 };
@@ -47,7 +47,7 @@ function removeContact(contactId) {
             if (!contacts) {
                 return;
             }
-            return fs.writeFile(contactsPath, JSON.stringify(contacts))
+            return fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2))
         })
         .then(listContacts)
         .catch(error => console.error("Error message: ", error.message));
@@ -66,7 +66,7 @@ function addContact(name, email, phone) {
             console.table(contact);
             return [...contacts, contact];
         })
-        .then(contacts => fs.writeFile(contactsPath, JSON.stringify(contacts)))
+        .then(contacts => fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2)))
         .then(listContacts)
         .catch(error => console.error(error.message));
 };

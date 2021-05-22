@@ -5,9 +5,9 @@ const shortid = require('shortid');
 
 const contactsPath = path.join(__dirname, './db/contacts.json');
 
-function chosenContact(contacts,contactId){
-  const contact = contacts.find(contact=>contact.id.toString()===contactId);
-  return contact;
+function findContactById(contacts, contactId) {
+    const contact = contacts.find(contact => contact.id.toString() === contactId);
+    return contact;
 };
 
 function getData(){
@@ -16,7 +16,7 @@ function getData(){
     return data;
   })
   .then(JSON.parse)
-  .catch(error=>console.error(error.message));;
+  .catch(error=>console.error(error.message));
 };
 
 function listContacts() {
@@ -73,8 +73,8 @@ function addContact(name, email, phone) {
   }
 
 module.exports = {
-  listContacts,
-  getContactById,
-  removeContact,
-  addContact
+    listContacts,
+    getContactById,
+    removeContact,
+    addContact
 };

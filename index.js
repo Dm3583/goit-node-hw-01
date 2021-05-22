@@ -17,28 +17,22 @@ function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case 'list':
       // ...
-      contacts.listContacts()
-        .then(console.table);
+      contacts.listContacts();
       break;
 
     case 'get':
       // ... id
       contacts.getContactById(id)
-        .then(console.table)
       break;
 
     case 'add':
       // ... name email phone
       contacts.addContact(name, email, phone)
-      .then(console.table);
-      ;
       break;
 
     case 'remove':
-      // ... id
-      
+      // ... id     
       contacts.removeContact(id)
-      .then(console.table);
       break;
 
     default:

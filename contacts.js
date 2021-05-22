@@ -10,50 +10,53 @@ function chosenContact(contacts,contactId){
   return contact;
 };
 
+function getData(){
+  return fs.readFile(contactsPath, 'utf8', (error, data)=>{
+    if(error) throw error;
+    return data;
+  })
+  .then(JSON.parse)
+  .catch(error=>console.error(error.message));;
+};
+
 function listContacts() {
-    return fs.readFile(contactsPath, 'utf8', (error, data)=>{
-      if(error) throw error;
-      return data;
-    })
-    .then(JSON.parse)
-    .catch(error=>console.error(error.message));;
+    return getData().
+      then(console.table);
   }
   
 function getContactById(contactId) {
-    return listContacts()
+    return getData()
     .then(contacts=>{
       const contactById = chosenContact(contacts,contactId)
-      return contactById?
-                contactById:
-              `There is no contact with id ${contactId}`.red})
+       if(contactById){
+         console.table(contactById);
+        return contactById;
+      }
+      console.log( `There is no contact with id ${contactId}`.red);
+      return null;
+    })
     .catch(error=>console.error(error.message));
   }
   
 function removeContact(contactId) {
-    return listContacts()
+    return getData()
     .then(contacts=>{
       const contactToRemove = chosenContact(contacts, contactId);
-      console.log(contactToRemove);
       if(!contactToRemove){
         console.log(`There is no contact with id ${contactId}`.red);
         return;
       }
       const filteredContacts = contacts.filter(contact=>contact.id.toString()!==contactId);
+      fs.writeFile(contactsPath, JSON.stringify(filteredContacts, null ,2))
       console.log('You just removed:'.yellow);
       console.table(contactToRemove);
-      return filteredContacts;
+      return contactToRemove;
       })
-      .then(contacts=>{
-        if(!contacts){
-          return;
-        }
-        return fs.writeFile(contactsPath, JSON.stringify(contacts))})
-      .then(listContacts)
     .catch(error=>console.error("Error message: ",error.message));
   }
   
 function addContact(name, email, phone) {
-    return listContacts()
+    return getData()
       .then(contacts=>{
         const contact = {
           id: shortid.generate(),
@@ -65,8 +68,7 @@ function addContact(name, email, phone) {
         console.table(contact);
         return [...contacts, contact];
       })
-      .then(contacts=>fs.writeFile(contactsPath, JSON.stringify(contacts)))
-      .then(listContacts)
+      .then(contacts=>fs.writeFile(contactsPath, JSON.stringify(contacts, null ,2)))
     .catch(error=>console.error(error.message));
   }
 
